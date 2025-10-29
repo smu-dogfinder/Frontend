@@ -1,16 +1,18 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
-import { nodePolyfills } from 'vite-plugin-node-polyfills';
+import polyfillNode from 'vite-plugin-polyfill-node';
 
 const BACKEND_URL = process.env.VITE_BACKEND_URL || 'http://localhost:8000';
 
 export default defineConfig({
-  plugins: [react(),
-           nodePolyfills({
-             include: ['crypto'],
-           }),
+  plugins: [
+    react(),
+    polyfillNode(),
   ],
+  optimizeDeps: {
+    include: ['buffer', 'process', 'util'],
+  },
   resolve: {
     alias: { '@': path.resolve(__dirname, './src') },
   },
